@@ -1,0 +1,157 @@
+DOWNLOAD_DATA APPLICATION
+SYNTAX_VERSION 1
+
+
+  APPLICATION_GROUP "MessageVoting"
+   LABEL "Message Voting"
+   DESCRIPTION "Programs that let you vote on what messages you like to receive, and at what severity levels"
+   SYMBOL ""
+   SUBENTITIES APPLICATION_GROUP
+   {
+   }
+   SUBENTITIES APPLICATION
+   {
+    APPLICATION "Major"
+     SYMBOL ""
+     TARGET 2
+     LABEL "Major"
+     DESCRIPTION "Vote that the highlighted messages should be marked as major"
+     APPL_CALL "opcbayes.pl --learn=major $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd69008e-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+    APPLICATION "Critical"
+     SYMBOL ""
+     TARGET 2
+     LABEL "Critical"
+     DESCRIPTION "Vote that the highlighted messages should be marked as critical"
+     APPL_CALL "opcbayes.pl --learn=critical $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd69332e-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+    APPLICATION "Warning"
+     SYMBOL ""
+     TARGET 2
+     LABEL "Warning"
+     DESCRIPTION "Vote that the highlighted messages should be marked as warning"
+     APPL_CALL "opcbayes.pl --learn=warning $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd69616e-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+    APPLICATION "ignore"
+     SYMBOL ""
+     TARGET 2
+     LABEL "ignore"
+     DESCRIPTION "Vote that the highlighted messages should be ignored"
+     APPL_CALL "opcbayes.pl --learn=ignore $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd698f22-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+    APPLICATION "Minor"
+     SYMBOL ""
+     TARGET 2
+     LABEL "Minor"
+     DESCRIPTION "Vote that the highlighted messages should be marked as minor"
+     APPL_CALL "opcbayes.pl --learn=minor $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd69bcf4-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+    APPLICATION "Normal"
+     SYMBOL ""
+     TARGET 2
+     LABEL "Normal"
+     DESCRIPTION "Vote that the highlighted messages should be marked as normal"
+     APPL_CALL "opcbayes.pl --learn=normal $OPC_MSGIDS_ACT $OPC_MSGIDS_HIST"
+     INTERN_APPL_ACTION 0 ALLOW_CUSTOMIZE FALSE
+     LICENSE_FLAG FALSE
+     LICENSE_TEXT ""
+
+     NODE
+     {
+     }
+     APPL_LOGIN
+     {
+     }
+     APPLICATION_TYPE CSM_PLATFORM_INTEGRATED
+      UUID "cd69ea12-4e3f-71dd-0d8b-c0a8ba970000"
+      START_IN_TERM_FLAG 2
+      PARAMETERS ""
+      USER_NAME "root"
+      PASSWORD "CC2CCC110B919339D6F1134EED61DD000311C761FE9EA228D4AD"
+   };
+
+  APPLICATION_GROUP PSEUDO_GROUP
+   SUBENTITIES APPLICATION
+   {
+    APPLICATION_REF "Critical"
+    APPLICATION_REF "Major"
+    APPLICATION_REF "Minor"
+    APPLICATION_REF "Normal"
+    APPLICATION_REF "Warning"
+    APPLICATION_REF "ignore"
+   };

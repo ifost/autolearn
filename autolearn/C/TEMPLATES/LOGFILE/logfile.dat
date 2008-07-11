@@ -1,0 +1,18 @@
+SYNTAX_VERSION 5
+
+
+LOGFILE "BayesianLogReader"
+        DESCRIPTION "Bayesian log filter of all logs on a system (as listed by logsleuth) and"
+        LOGPATH "<`logsleuth --list`>"
+        INTERVAL "10s"
+        CHSET ASCII
+        FROM_LAST_POS
+        CLOSE_AFTER_READ
+        SEVERITY Unknown
+        MSGGRP "BayesTemp"
+        MSGCONDITIONS
+                DESCRIPTION "Pass through Bayes"
+                CONDITION_ID "a712887c-4d6a-71dd-180c-c0a8ba970000"
+                CONDITION
+                SET
+                        AUTOACTION "opcbayes.pl --opcmsg --object=<$LOGPATH> --application=Logfile --node=<$MSG_NODE_NAME> --message-group=OS <$MSG_ID>" ACTIONNODE IP 0.0.0.0  "<$OPC_MGMTSV>" ANNOTATE ACK

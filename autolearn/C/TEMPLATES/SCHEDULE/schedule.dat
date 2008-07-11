@@ -1,0 +1,29 @@
+SYNTAX_VERSION 4
+
+
+SCHEDULE "CollectStdMetrics"
+  DESCRIPTION "Run stdmetrics.pl"
+    MINUTE   "0,5,10,15,20,25,30,35,40,45,50,55"
+    SCHEDPROG "stdmetrics.pl all"
+    USER "root"
+    SEND_OUTPUT
+    FAILURE
+                SET
+                        SEVERITY Warning
+                        APPLICATION "stdmetrics.pl"
+                        MSGGRP "OpC"
+                        TEXT "Could not run stdmetrics.pl"
+
+SCHEDULE "FindLogs"
+  DESCRIPTION "Find all files which look like log files"
+    MINUTE   "13"
+    SCHEDPROG "logsleuth --discover"
+    USER "root"
+    SEND_OUTPUT
+    FAILURE
+                SET
+                        SEVERITY Warning
+                        APPLICATION "opcbayes"
+                        MSGGRP "OpC"
+                        OBJECT "logsleuth"
+                        TEXT "logsleuth failed to run. opcbayes will not know about any recently-added log files."

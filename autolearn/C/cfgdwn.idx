@@ -1,0 +1,274 @@
+HEADER
+ NAME "/var/opt/OV/share/tmp/OpC_appl/cfgdwn/C/cfgdwn.idx"
+ DATE "Thu Jul 10 23:39:31 2008"
+ FROM "rp34-260.ov.hpvldas.hp.com"
+ CHARACTER_SET ISO885915
+ ADMIN_UUID "5e30d5740cbc.02.0f.88.78.18.00.00.00";
+CONTENTS SELECTED;
+ENTITY MESSAGE_GROUP SELECTED
+PROCESSED "BayesTemp"
+;
+ENTITY APPLICATION_GROUP SELECTED
+   PROCESSED "MessageVoting" *
+    SUBENTITIES APPLICATION_GROUP
+    {
+    }
+    SUBENTITIES APPLICATION
+    {
+     PROCESSED "Major"
+     PROCESSED "Critical"
+     PROCESSED "Warning"
+     PROCESSED "ignore"
+     PROCESSED "Minor"
+     PROCESSED "Normal"
+    }
+   PROCESSED PSEUDO_GROUP SELECTED
+    SUBENTITIES APPLICATION
+    {
+     PROCESSED "Critical"
+     PROCESSED "Major"
+     PROCESSED "Minor"
+     PROCESSED "Normal"
+     PROCESSED "Warning"
+     PROCESSED "ignore"
+    };
+ENTITY LOGFILE_TEMPLATE SELECTED
+PROCESSED "BayesianLogReader"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "Pass through Bayes"
+ }
+;
+ENTITY MONITOR_TEMPLATE SELECTED
+PROCESSED "bwrit-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "days_of_diskspace_capacity_left"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "Negative numbers should be ignored."
+  PROCESSED "Less than a day"
+  PROCESSED "Less than a week"
+  PROCESSED "Less than a fortnight"
+ }
+PROCESSED "days_of_ram_free_capacity_left"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "Ignore negatives"
+  PROCESSED "Four weeks until swapping"
+ }
+PROCESSED "days_of_virtual_mem_free_capacity_left"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "Ignore negatives"
+  PROCESSED "Four weeks until stuffed"
+ }
+PROCESSED "device-average-queue"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Queue length normal"
+ }
+PROCESSED "device-average-service-time"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Service time normal"
+ }
+PROCESSED "device-average-wait-time"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Normality restored"
+ }
+PROCESSED "device-blocks-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Normal restored"
+ }
+PROCESSED "device-busy-percent"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Normality restored"
+ }
+PROCESSED "device-reads-and-writes-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% probability event"
+  PROCESSED "0.01% probability event"
+  PROCESSED "Normality restored"
+ }
+PROCESSED "disk"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% likelihood event"
+  PROCESSED "0.01% likelihood event"
+ }
+PROCESSED "exec-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "fork-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "idle-percent"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "iget-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "load_average"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "lread-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "lwrit-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "msg-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "namei-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "outch-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "pswch-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "ram_free"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.01% probability event"
+  PROCESSED "0.1% probability event"
+ }
+PROCESSED "rawch-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "rchar-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "runocc-percent"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "runq-sz"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "scall-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "sema-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality"
+ }
+PROCESSED "sread-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "swrit-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "sys-percent"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality restored"
+ }
+PROCESSED "usr-percent"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality restored"
+ }
+PROCESSED "virtual-mem_used"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "virtual_mem_free"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.01% probability event"
+  PROCESSED "Virtual memory normal"
+  PROCESSED "0.1% probability event"
+ }
+PROCESSED "virtual_mem_used"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "wcache-percent"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "wchar-per-sec"
+ SUBENTITIES CONDITIONS
+ {
+ }
+PROCESSED "wio-percent"
+ SUBENTITIES CONDITIONS
+ {
+  PROCESSED "0.1% event"
+  PROCESSED "0.01% event"
+  PROCESSED "Normality restored"
+ }
+;
+ENTITY SCHEDULE_TEMPLATE SELECTED
+PROCESSED "CollectStdMetrics"
+PROCESSED "FindLogs"
+;
+ENTITY TEMPLATE_GROUP SELECTED
+PROCESSED "Autolearning Monitors"
+PROCESSED "LogfileReading"
+PROCESSED "SelfTuningMonitors"
+;
+ENTITY INSTRUCTION_INTERFACE SELECTED
+ PROCESSED "ChartsViaWeb";
+.

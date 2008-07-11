@@ -1,0 +1,8 @@
+DOWNLOAD_DATA MESSAGE_GROUP
+SYNTAX_VERSION 1
+
+MESSAGE_GROUP "BayesTemp"
+	SYMBOL ""
+	DESCRIPTION "Messages get filed here first before getting sent off to elsewhere as a result of analysis"
+	LABEL "Bayes-Temp"
+;

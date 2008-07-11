@@ -1,0 +1,1121 @@
+SYNTAX_VERSION 5
+
+
+MONITOR "bwrit-per-sec"
+        DESCRIPTION "Number of physical writes per second from the buffer cache to the disk (or other block device);"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "days_of_diskspace_capacity_left"
+        DESCRIPTION "Number of days before a volume runs out of space"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "Negative numbers should be ignored."
+                CONDITION_ID "524ef144-1d91-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 0.000000
+                        RESET 0.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Negative number of days (<$THRESHOLD>) predicted for disk space depletion of <fs>."
+                DESCRIPTION "Less than a day"
+                CONDITION_ID "30f95430-1d91-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 1.000000
+                        RESET 7.000000
+                SET
+                        SEVERITY Critical
+                        MSGGRP "OS"
+                        OBJECT "<fs>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<fs> has <$THRESHOLD> days capacity; now <$OPTION(observation)>% free, dropping <$OPTION(daily)> per day."
+                        HELPTEXT "This is only approximate, and may be incorrect
+if extra capacity has been added recently."
+                        HELP "6b8fe290-1d95-71dd-1f09-0a64641a0000"
+                DESCRIPTION "Less than a week"
+                CONDITION_ID "79c43410-1d95-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 7.000000
+                        RESET 14.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        OBJECT "<fs>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<fs> has <$THRESHOLD> days capacity; now <$OPTION(observation)>% free, dropping <$OPTION(daily)> per day."
+                        HELPTEXT "This is only approximate, and may be incorrect
+if extra capacity has been added recently."
+                        HELP "79c479b6-1d95-71dd-1f09-0a64641a0000"
+                DESCRIPTION "Less than a fortnight"
+                CONDITION_ID "912c3d0a-1d95-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 14.000000
+                        RESET 28.000000
+                SET
+                        SEVERITY Warning
+                        MSGGRP "OS"
+                        OBJECT "<fs>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<fs> has <$THRESHOLD> days capacity; now <$OPTION(observation)>% free, dropping <$OPTION(daily)> per day."
+                        HELPTEXT "This is only approximate, and may be incorrect
+if extra capacity has been added recently."
+                        HELP "912c4a2a-1d95-71dd-1f09-0a64641a0000"
+
+MONITOR "days_of_ram_free_capacity_left"
+        DESCRIPTION "Days until we start swapping out to disk"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "Ignore negatives"
+                CONDITION_ID "8f5ba5cc-1d92-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.000000
+                        RESET 0.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Negative number of days (<$THRESHOLD>) predicted for memory depletion."
+                DESCRIPTION "Four weeks until swapping"
+                CONDITION_ID "bbc4a5b4-1d92-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 28.000000
+                        RESET 49.000000
+                SET
+                        SEVERITY Warning
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Swapping is likely to start in <$THRESHOLD> days. Currently <$OPTION(observation)>Mb free, dropping by <$OPTION(daily)> per day."
+
+MONITOR "days_of_virtual_mem_free_capacity_left"
+        DESCRIPTION "Days until we are totally out of memory"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "Ignore negatives"
+                CONDITION_ID "bce60458-1d95-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.000000
+                        RESET 0.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Negative number of days (<$THRESHOLD>) predicted for memory depletion."
+                DESCRIPTION "Four weeks until stuffed"
+                CONDITION_ID "bce639dc-1d95-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 28.000000
+                        RESET 49.000000
+                SET
+                        SEVERITY Minor
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Out-of-memory is likely to start in <$THRESHOLD> days. Currently <$OPTION(observation)>Mb free, dropping by <$OPTION(daily)> per day."
+
+MONITOR "device-average-queue"
+        DESCRIPTION "Average queue length on disks"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "f9ea41fc-3dbb-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average queue length <$OPTION(observation)>. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "8f8eb61c-3dbb-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average queue length <$OPTION(observation)>. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Queue length normal"
+                CONDITION_ID "8f8fda60-3dbb-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Queue length problem seems to have fixed itself."
+
+MONITOR "device-average-service-time"
+        DESCRIPTION "Average service time for requests to disk"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "0abab318-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average service time <$OPTION(observation)>ms. Normally <$OPTION(mean)>ms, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "0abaea18-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average service time <$OPTION(observation)>ms. Normally <$OPTION(mean)>ms, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Service time normal"
+                CONDITION_ID "0abb1470-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Service time problems seems to have fixed itself."
+
+MONITOR "device-average-wait-time"
+        DESCRIPTION "Average wait time for requests to disk"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "3acb9bd0-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average wait time <$OPTION(observation)>ms. Normally <$OPTION(mean)>ms, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "3acbc920-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Average wait time <$OPTION(observation)>ms. Normally <$OPTION(mean)>ms, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "3acbf1c0-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Wait time problems seems to have fixed itself."
+
+MONITOR "device-blocks-per-sec"
+        DESCRIPTION "Number of blocks per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "776eb068-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>x512 byte blocks being transferred per second. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "77704f18-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>x512 bytes blocks being transferred per second. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Normal restored"
+                CONDITION_ID "77707268-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Block transfer rate is now back to normal."
+
+MONITOR "device-busy-percent"
+        DESCRIPTION "How busy the disk is"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "e90ce500-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>% of the time <device> is busy. Normally it is busy only <$OPTION(mean)>%, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "e90e78f2-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>% of the time <device> is busy. Normally it is only busy about <$OPTION(mean)>% of the time, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "e90ea2e6-3dbc-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Device busy problem seems to have fixed itself."
+
+MONITOR "device-reads-and-writes-per-sec"
+        DESCRIPTION "Number of reads and writes per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "44884582-3dbd-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> reads and writes per second. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "448873e0-3dbd-71dd-12b5-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.device>"
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        OBJECT "<device>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> reads and writes per second. Normally <$OPTION(mean)>, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "4488985c-3dbd-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Read and write rate is now back to normal."
+
+MONITOR "disk"
+        DESCRIPTION "Free disk storage capacity - unusual drops"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% likelihood event"
+                CONDITION_ID "1273fc6e-1d90-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 0.100000 FOR "15m"
+                        RESET 1.000000
+                SET
+                        SEVERITY Warning
+                        MSGGRP "OS"
+                        OBJECT "<fs>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<fs> free space=<$OPTION(observation)>% . Usually <$OPTION(mean)>% with stddev of <$OPTION(stddev)>. There is a <$VALUE>% chance that this is a chance event."
+                DESCRIPTION "0.01% likelihood event"
+                CONDITION_ID "328e2362-1d90-71dd-1f09-0a64641a0000"
+                CONDITION
+                        OBJECT "<@.fs>"
+                        THRESHOLD 0.010000 FOR "15m"
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        OBJECT "<fs>"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<fs> now at <$OPTION(observation)>% free; usual free space is <$OPTION(mean)>% with stddev <$OPTION(stddev)>%. There is a <$VALUE>% chance of this happening."
+
+MONITOR "exec-per-sec"
+        DESCRIPTION "exec() calls per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "exec()"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "f8dd1c40-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> exec() calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>."
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "f8dd4e54-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> exec() calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>."
+                DESCRIPTION "Normality"
+                CONDITION_ID "f8dd7c4e-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusual exec() call activity problem seems to have resolved itself"
+
+MONITOR "fork-per-sec"
+        DESCRIPTION "fork() calls per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "fork()"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "e18c28b0-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> fork() calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "e18c5844-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> fork() calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality"
+                CONDITION_ID "e18c7ae0-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusual fork() call activity problem seems to have resolved itself"
+
+MONITOR "idle-percent"
+        DESCRIPTION "CPU time spent idle"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "iget-per-sec"
+        DESCRIPTION "Inode gets per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "load_average"
+        DESCRIPTION "CPU monitor for load"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "load_average"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        SERVICE_NAME "Load average = <$OPTION(observation)>. Normally <$OPTION(mean)>, with stddev <$OPTION(stddev)>. This happens only <$VALUE>% of observations."
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "2510ba48-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Load average currently <$OPTION(observation)>. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>."
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "be0607a6-1d91-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Load average currently <$OPTION(observation)>. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>."
+                DESCRIPTION "Normality"
+                CONDITION_ID "339edeaa-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Load average problem seems to have resolved itself"
+
+MONITOR "lread-per-sec"
+        DESCRIPTION "Number of reads per second from buffer cache"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "lwrit-per-sec"
+        DESCRIPTION "Number of writes per second from buffer cache"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "msg-per-sec"
+        DESCRIPTION "IPC messages per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "msg"
+        MSGGRP "OS"
+        OBJECT "IPC"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "5b1cb8f8-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> messages per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "5b1d1dfc-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> messages per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality"
+                CONDITION_ID "5b1ce8fa-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Load average problem seems to have resolved itself"
+
+MONITOR "namei-per-sec"
+        DESCRIPTION "Inode name lookups per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "outch-per-sec"
+        DESCRIPTION "Characters output per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "pswch-per-sec"
+        DESCRIPTION "Context switches per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "kernel"
+        MSGGRP "OS"
+        OBJECT "context switch"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "3aed4198-4d6d-71dd-180c-c0a8ba970000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> context switches per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "3aed6fce-4d6d-71dd-180c-c0a8ba970000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> context switches per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality"
+                CONDITION_ID "3aed9562-4d6d-71dd-180c-c0a8ba970000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusual context switch activity problem seems to have resolved itself"
+
+MONITOR "ram_free"
+        DESCRIPTION "Real physical memory free"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "f8ec06c2-1d91-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusually low on physical RAM - <$OPTION(observation)>Mb free. There is only a <$THRESHOLD>% chance that this is normal."
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "eba34fac-1d91-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusually low on physical RAM - <$OPTION(observation)>Mb free. There is only a <$THRESHOLD>% chance that this is normal."
+
+MONITOR "rawch-per-sec"
+        DESCRIPTION "Raw characters i/o per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "rchar-per-sec"
+        DESCRIPTION "Number of characters transferred by read system calls block devices only per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "runocc-percent"
+        DESCRIPTION "Percentage of time run queue is occupied"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "runq-sz"
+        DESCRIPTION "Run queue size"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "scall-per-sec"
+        DESCRIPTION "System calls per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "system calls"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "c3da4ed2-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> system calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "c3dd8976-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> system calls per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality"
+                CONDITION_ID "c3ddae2e-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusual system call activity problem seems to have resolved itself"
+
+MONITOR "sema-per-sec"
+        DESCRIPTION "IPC semaphores per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "semaphores"
+        MSGGRP "OS"
+        OBJECT "IPC"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "88ec096e-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> semaphores per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "88ef28e2-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)> semaphores per second. Normally it is <$OPTION(mean)> with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality"
+                CONDITION_ID "88ef5498-3dbf-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Unusual semaphone activity problem seems to have resolved itself"
+
+MONITOR "sread-per-sec"
+        DESCRIPTION "Number of read() and/or readv() system calls per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "swrit-per-sec"
+        DESCRIPTION "Number of write() and/or writev() system calls per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "sys-percent"
+        DESCRIPTION "Percent time in kernel-space"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "%sys"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "386a8872-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time in kernel operations. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "386abe0a-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time in kernel operations. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "386ae7d6-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "%sys CPU time problem seems to have resolved itself"
+
+MONITOR "usr-percent"
+        DESCRIPTION "Percent time in user-space processes"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "%usr"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "efbc18ac-3dbd-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time in user space. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "9c9ceebc-3dbd-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time in user space. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "297d6b0e-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "%usr CPU time problem seems to have resolved itself"
+
+MONITOR "virtual-mem_used"
+        DESCRIPTION "Virtual memory used"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "virtual_mem_free"
+        DESCRIPTION "Virtual memory (real + disk swap) free"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        MSGGRP "OS"
+        OBJECT "Memory (virtual)"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.01% probability event"
+                CONDITION_ID "d7647baa-1d92-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>Mb virtual memory free. Normally <$OPTION(mean)>Mb free, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+                DESCRIPTION "Virtual memory normal"
+                CONDITION_ID "b48c38fe-27cc-71dd-128f-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "Virtual memory problem seems to have fixed itself."
+                DESCRIPTION "0.1% probability event"
+                CONDITION_ID "d767979a-1d92-71dd-1f09-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "<$OPTION(observation)>Mb virtual memory free. Normally <$OPTION(mean)>Mb free, with stddev of <$OPTION(stddev)>. This happens by chance only <$VALUE>% of the time."
+
+MONITOR "virtual_mem_used"
+        DESCRIPTION "Virtual memory used"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "wcache-percent"
+        DESCRIPTION "Buffer cache hit ratio for write requests"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "wchar-per-sec"
+        DESCRIPTION "Number of characters transferred by write system calls block devices only per second"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+
+MONITOR "wio-percent"
+        DESCRIPTION "Percent time in kernel-space"
+        AUTOMATIC_MSGKEY
+        EXTERNAL
+        MINTHRESHOLD
+        GEN_BELOW_RESET
+        SEVERITY Unknown
+        APPLICATION "%wio"
+        MSGGRP "OS"
+        OBJECT "CPU"
+        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+        MSGCONDITIONS
+                DESCRIPTION "0.1% event"
+                CONDITION_ID "d50a3376-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.100000
+                        RESET 1.000000
+                SET
+                        SEVERITY Minor
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time waiting for I/O. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "0.01% event"
+                CONDITION_ID "d50a6bfc-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 0.010000
+                        RESET 0.100000
+                SET
+                        SEVERITY Major
+                        MSGGRP "OS"
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "CPU spending <$OPTION(observation)>% of its time waiting for I/O. Normally it is <$OPTION(mean)>%, with stddev <$OPTION(stddev)>. Probability=<$VALUE>%"
+                DESCRIPTION "Normality restored"
+                CONDITION_ID "d50a9a14-3dbe-71dd-12b5-0a64641a0000"
+                CONDITION
+                        THRESHOLD 30.000000
+                        RESET 100.000000
+                SET
+                        SERVERLOGONLY
+                        SEVERITY Normal
+                        MSGKEY "<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<$THRESHOLD>"
+                        MSGKEYRELATION ACK  "^<$NAME>:<$MSG_NODE_NAME>:<$MSG_OBJECT>:<*>"
+                        TEXT "%wio time problem seems to have resolved itself"

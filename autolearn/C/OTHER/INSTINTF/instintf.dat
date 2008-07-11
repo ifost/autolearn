@@ -1,0 +1,12 @@
+DOWNLOAD_DATA INSTRUCTION_INTERFACE
+SYNTAX_VERSION 1
+
+INSTRUCTION_INTERFACE "ChartsViaWeb"
+ DESCRIPTION "Launches a URL from the client's Java gui, which will typically be something from Google's chartserver"
+ INSTR_INTERF_CALL "<LOCAL_ON_JAVA_CLIENT_WEB>"
+ NODE _OPC_MGMTSV_
+ START_ON_MGMT_SV 1
+ USER_NAME "root"
+ OUTPUT_MODE 2
+ RESOLVE_FOR_TTNS 0
+;
