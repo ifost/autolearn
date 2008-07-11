@@ -1,0 +1,142 @@
+depot
+ layout_version   1.0
+vendor
+ tag IFOST
+ title The Institute for Open Systems Technologies Pty Ltd
+category
+ tag system_mgt
+ title Systems Mangement
+end
+product
+ tag autolearn
+ revision 0.1
+ architecture HP*
+ vendor_tag IFOST
+ category_tag system_mgmt
+ description Artificial intelligence software bundle for HP Software Operations
+ machine_type *
+ os_name HP-UX
+ os_release *
+ os_version *
+ directory /
+ is_locatable false
+ subproduct
+   tag OpcConfigs
+   title Configuration directory suitable for uploading with opccfgupld
+   contents apps msggrps intf templates index
+   configure /opt/OV/bin/OpC/opccfgupld -add /var/opt/autolearn
+ end
+ subproduct
+   tag Programs
+   title Artificial intelligence programs
+   contents hpiadce hppadce hpiabbc hppabbc sundce sunbbc linuxdce linuxbbc
+ end
+ fileset
+   tag apps
+   title Applications Bank Entries for Message Voting
+   directory /var/opt/autolearn/C/APPLICATIONS=/var/opt/autolearn/C/APPLICATIONS
+   file applications.dat
+ end
+ fileset
+   tag msggrps
+   title Message Group Bank additions
+   directory /var/opt/autolearn/C/MSGGROUPS=/var/opt/autolearn/C/MSGGROUPS
+   file msggroups.dat
+ end
+ fileset
+   tag intf
+   title Additional instruction text interface (currently unused)
+   directory /var/opt/autolearn/C/OTHER/INSTINTF=/var/opt/autolearn/C/OTHER/INSTINTF
+   file instintf.dat
+ end
+ fileset
+   tag templates
+   title Templates for autolearning
+   directory /var/opt/autolearn/C/TEMPLATES/LOGFILE=/var/opt/autolearn/C/TEMPLATES/LOGFILE
+   file logfile.dat
+   directory /var/opt/autolearn/C/TEMPLATES/MONITOR=/var/opt/autolearn/C/TEMPLATES/MONITOR
+   file monitor.dat
+   directory /var/opt/autolearn/C/TEMPLATES/SCHEDULE=/var/opt/autolearn/C/TEMPLATES/SCHEDULE
+   file schedule.dat
+   directory /var/opt/autolearn/C/TEMPLATES/TEMPLGROUP=/var/opt/autolearn/C/TEMPLATES/TEMPLGROUP
+   file templgroup.dat
+ end
+ fileset
+   tag index
+   title Index files for opccfgupld
+   directory /var/opt/autolearn/C=/var/opt/autolearn/C
+   file autolearn.idx
+ end
+ fileset
+   tag hpiadce
+   title Agent software for HP-UX Itanium systems using DCE (v7 and earlier)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/hp/ia64/hp-ux11_32/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/hp/ia64/hp-ux11_32/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  hppadce
+   title Agent software for HP-UX PA-RISC systems using DCE (v7 and earlier)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/hp/pa-risc/hp-ux11/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/hp/pa-risc/hp-ux11/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  hpiabbc
+   title Agent software for HP-UX Itanium systems using HTTPS (v8 and later)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/hp/ipf32/hpux1122/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/hp/ipf32/hpux1122/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  hppabbc
+   title Agent software for HP-UX PA-RISC systems using HTTPS (v8 and later)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/hp/pa-risc/hpux1100/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/hp/pa-risc/hpux1100/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  sundce
+   title Agent software for Solaris systems using DCE (v7 and earlier)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/sun/sparc/solaris/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/sun/sparc/solaris/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  sunbbc
+   title Agent software for Solari systems using HTTPS (v8 and later)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/sun/sparc/solaris7/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/sun/sparc/solaris7/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  linuxdce
+   title Agent software for Linux systems using DCE (v7 and earlier)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/linux/intel/linux24/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/linux/intel/linux24/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+ fileset
+   tag  linuxbbc
+   title Agent software for Linux systems using HTTPS (v8 and later)
+   directory /var/opt/OV/share/databases/OpC/mgd_node/customer/linux/x86/linux24/actions=/var/opt/OV/share/databases/OpC/mgd_node/customer/linux/x86/linux24/actions
+   file observe
+   file opcbayes.pl
+   file stdmetrics.pl
+   file logsleuth
+ end
+end
